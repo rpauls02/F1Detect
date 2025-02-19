@@ -1,0 +1,30 @@
+# Training Parameters
+epochs: [50, 100]  # Sufficient for fine-tuning a pretrained model
+
+# Learning Rate and Optimization
+lr0: [0.001, 0.002]  # Suitable for transfer learning
+momentum: [0.90, 0.937]  # Stabilizes training
+weight_decay: [0.0005, 0.001]  # Prevents overfitting
+
+# Warmup Parameters
+warmup_epochs: [3, 5]  # Ensures smooth weight initialization
+
+# Augmentation Parameters
+hsv_h: [0.010, 0.015]  # Hue variation
+hsv_s: [0.7, 0.9]  # Saturation variation
+hsv_v: [0.4, 0.5]  # Brightness variation
+degrees: [0.0, 5.0]  # Small rotations
+translate: [0.1, 0.2]  # Limited translations
+scale: [0.5, 0.6]  # Minor scaling
+fliplr: [0.5, 0.7]  # Horizontal flipping (useful for track-side shots)
+mosaic: [1.0]  # Essential for object detection
+
+# Loss Function Weights
+box: [7.5, 10.0]  # Focuses on accurate localization
+cls: [0.5, 0.7]  # Maintains classification balance
+
+# Early Stopping
+patience: [50]  # Avoids premature stopping
+
+# Model Parameters
+freeze: [[0], [10]]  # Freezing initial layers for transfer learning
