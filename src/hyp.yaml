@@ -1,5 +1,5 @@
 # Training Parameters
-epochs: [50, 100]  # Sufficient for fine-tuning a pretrained model
+epochs: [25, 50, 100]  # Sufficient for fine-tuning a pretrained model
 
 # Learning Rate and Optimization
 lr0: [0.001, 0.002]  # Suitable for transfer learning
