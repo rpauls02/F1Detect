@@ -2,12 +2,12 @@ train: train/images
 val: val/images
 test: test/images
 
-nc: 10
-names: ['Alfa Romeo', 'AlphaTauri', 'Alpine', 'Aston Martin', 'Ferrari', 'Haas', 'McLaren', 'Mercedes', 'Red Bull', 'Williams']
+nc: 1
+names: ['race car']
 
 roboflow:
   workspace: f1-vehicle-detection
-  project: car-dataset-8xyhq
+  project: f1-car-dataset-8xyhq
   version: 1
   license: CC BY 4.0
-  url: https://universe.roboflow.com/f1-vehicle-detection/car-dataset-8xyhq/dataset/1
+  url: https://universe.roboflow.com/f1-vehicle-detection/f1-car-dataset-kkvsm/7
