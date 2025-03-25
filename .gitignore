@@ -173,3 +173,4 @@ cython_debug/
 /dataset
 /runs/iter10
 /runs/iter30
+yolo11m.pt
