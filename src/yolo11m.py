@@ -1,17 +1,18 @@
 import os
 import yaml
 import torch
-import shutil
 import sys
+import time
 from ultralytics import YOLO
 
+# Paths
 BASE_DIR = 'P:/GitHub/F1-Car-Detection/'
 
 DATASET_DIR = os.path.join(BASE_DIR, 'dataset/')
 DATA_YAML = os.path.join(DATASET_DIR, 'data.yaml')
 
 SRC_DIR = os.path.join(BASE_DIR, 'src/')
-HYP_YAML = os.path.join(SRC_DIR, 'hyp.yaml')
+HYP_YAML = os.path.join(SRC_DIR, 'base_hyp.yaml')
 
 # Load hyperparameter space
 with open(HYP_YAML, "r") as f:
@@ -27,29 +28,36 @@ for key, value in hyp_space.items():
         except ValueError:
             pass  # Ignore if conversion fails
 
+# Limit system memory usage
+torch.set_num_threads(6)
+
 # Check for GPU availability
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # Load model
-model = YOLO("yolo11m.pt").to(device)
+model = YOLO("yolo11m.pt")
 if not model:
-    print("Model not found. Exiting.")
+    print(f"{model} not found. Exiting.")
     sys.exit(1)
-    
-print(f"yolo11m loaded on {device}")
 
+t0 = time.time()
+
+# Run tuning
 results = model.tune(
-    device=device,
+    device='cuda',
     data=DATA_YAML,
     space=hyp_space,
-    project="runs",
+    project="runs/iter30",
     name="exp",
     plots=True,
     save=True,
-    batch=32,
+    batch=16,
     imgsz=640,
-    optimizer="SGD",
-    patience=50,
     epochs=10,
-    iterations=10
+    iterations=30,
+    verbose=True,
+    val=True,
+    single_cls=True
 )
+
+print('Finished tuning on GPU in ', time.time() - t0, ' seconds')
