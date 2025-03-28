@@ -176,3 +176,4 @@ cython_debug/
 yolo11m.pt
 /runs/iter50
 yolo11n.pt
+/runs/iter100
