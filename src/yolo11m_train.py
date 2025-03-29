@@ -1,45 +1,62 @@
 import os
-import yaml
 import torch
-import sys
 import time
+import yaml
 from ultralytics import YOLO
 
-# Paths
-BASE_DIR = 'P:/GitHub/F1-Car-Detection/'
+def main():
+    # Paths
+    BASE_DIR = 'P:\\GitHub\\F1-Car-Detection\\'
 
-DATASET_DIR = os.path.join(BASE_DIR, 'dataset/')
-DATA_YAML = os.path.join(DATASET_DIR, 'data.yaml')
+    DATASET_DIR = os.path.join(BASE_DIR, 'dataset\\')
+    DATA_YAML = os.path.join(DATASET_DIR, 'data.yaml')
 
-SRC_DIR = os.path.join(BASE_DIR, 'src/')
+    RUNS_DIR = os.path.join(BASE_DIR, 'runs\\')
+    TUNE_RUNS = os.path.join(RUNS_DIR, 'tuning\\')
 
-# Limit system memory usage
-torch.set_num_threads(6)
+    # Load best models from each iteration
+    #model_path = os.path.join(TUNE_RUNS, 'iter10', 'tune', 'weights', 'best.pt')
+    #BEST_HYP = os.path.join(TUNE_RUNS, 'iter10', 'tune', 'best_hyperparameters.yaml')
 
-# Check for GPU availability
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    #model_path = os.path.join(TUNE_RUNS, 'iter25', 'tune', 'weights', 'best.pt')
+    #BEST_HYP = os.path.join(TUNE_RUNS, 'iter25', 'tune', 'best_hyperparameters.yaml')
 
-# Load model
-model = YOLO("yolo11m.pt")
-if not model:
-    print(f"{model} not found. Exiting.")
-    sys.exit(1)
+    #model_path = os.path.join(TUNE_RUNS, 'iter50', 'tune', 'weights', 'best.pt')
+    #BEST_HYP = os.path.join(TUNE_RUNS, 'iter50', 'tune', 'best_hyperparameters.yaml')
 
-t0 = time.time()
+    #model_path = os.path.join(TUNE_RUNS, 'iter100', 'tune', 'weights', 'best.pt')
+    #BEST_HYP = os.path.join(TUNE_RUNS, 'iter100', 'tune', 'best_hyperparameters.yaml')
+    
+    # Load model
+    model = YOLO("yolo11m.pt")
 
-# Run tuning
-results = model.train(
-    device='cuda',
-    data=DATA_YAML,
-    project="runs/final",
-    name="exp",
-    plots=True,
-    save=True,
-    batch=16,
-    imgsz=640,
-    epochs=100,
-    verbose=True,
-    val=True
-)
+    # Limit system memory usage
+    torch.set_num_threads(6)
 
-print('Finished tuning on GPU in ', time.time() - t0, ' seconds')
+    # Start timer
+    t0 = time.time()
+
+    # Run training
+    model.train(
+        device="cuda:0",
+        data=DATA_YAML,
+        project="runs/training/baseline",
+        verbose=True,
+        val=True,
+        plots=True,
+        save=True,
+        imgsz=640,
+        epochs=100,
+        patience=30
+    )
+
+    print(f"Finished training on GPU in {time.time() - t0} seconds")
+
+    # baseline 5239.89 (5239.887646198273) seconds
+    # iter10 4640.87 (4640.867440223694) seconds 
+    # iter25 4508.46 (4508.464192152023) seconds 
+    # iter50 4758.54 (4758.537364959717) seconds
+    # iter100 4645.53 (4645.534210920334) seconds
+
+if __name__ == "__main__":
+    main()
