@@ -172,3 +172,5 @@ cython_debug/
 /raw
 /dataset
 /runs
+yolo11m.pt
+yolo11n.pt
