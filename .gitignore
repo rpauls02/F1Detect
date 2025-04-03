@@ -174,3 +174,4 @@ cython_debug/
 /runs
 yolo11m.pt
 yolo11n.pt
+/results
