@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 from ultralytics import YOLO
 
 # Paths
@@ -49,28 +50,62 @@ def run_inference_on_video(model, video_source, save_dir):
     original_shape = (width, height)
 
     filename = os.path.basename(video_source)
+    filename_no_ext = os.path.splitext(filename)[0]
     save_path = os.path.join(save_dir, filename)
     out = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, original_shape)
+
+    # Lists to store per-frame timings
+    preprocess_times = []
+    inference_times = []
+    postprocess_times = []
+    total_times = []
 
     while True:
         ret, frame = cap.read()
         if not ret:
             break
 
-        results = model.predict(source=frame, verbose=True, device="cuda")
+        t0 = time.time()
+        t1 = t0
+
+        results = model.predict(source=frame, verbose=False, device="cuda", save_txt=True)
+        t2 = time.time()
+
         result = results[0]
         annotated_frame = result.plot()
+        t3 = time.time()
+
         out.write(annotated_frame)
+
+        preprocess_times.append((t1 - t0) * 1000)
+        inference_times.append((t2 - t1) * 1000)
+        postprocess_times.append((t3 - t2) * 1000)
+        total_times.append((t3 - t0) * 1000)
 
     cap.release()
     out.release()
     print(f"Saved video result in {save_path}")
 
+    # Calculate averages
+    avg_pre = sum(preprocess_times) / len(preprocess_times)
+    avg_inf = sum(inference_times) / len(inference_times)
+    avg_post = sum(postprocess_times) / len(postprocess_times)
+
+    # Save timing metrics into .txt file
+    timing_txt_path = os.path.join(save_dir, f"{filename_no_ext}_metrics.txt")
+    with open(timing_txt_path, "w") as f:
+        f.write(f"Average timings per frame (ms):\n")
+        f.write(f"Preprocess: {avg_pre:.2f} ms\n")
+        f.write(f"Inference: {avg_inf:.2f} ms\n")
+        f.write(f"Postprocess: {avg_post:.2f} ms\n")
+
+    print(f"Saved timings in {timing_txt_path}")
+
 def main():
-    # Load model
+    # Load best model
     model_path = os.path.join(TRAIN_RUNS, 'iter100\\', 'train\\', 'weights\\', 'best.pt')
     model = YOLO(model_path)
-    
+
     print("\nRunning inference on real test image data...\n")
     for filename in os.listdir(REAL_TEST_IMG_DIR):
         if filename.lower().endswith(('.jpg')):
