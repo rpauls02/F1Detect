@@ -2,16 +2,23 @@ import os
 import cv2
 import random
 
-BASE_DIR = 'P:\\GitHub\\F1-Car-Detection\\'
-print(BASE_DIR)
-TEST_VIDEOS = os.path.join(BASE_DIR, 'raw\\', 'broadcast\\', 'test\\')
-print(TEST_VIDEOS)
-DATASET_DIR = os.path.join(BASE_DIR, 'dataset\\')
-print(DATASET_DIR)
-TEST_IMGS_DIR = os.path.join(DATASET_DIR, 'test\\', 'images\\')
-print(TEST_IMGS_DIR)
+'''
+Since GUI elements of the F1 23 game can be completely removed in the replay feature,
+this custom function could be used to extract frames from the recording.
 
-def extract_frames(video_file, output_folder, num_frames=30):
+Unlike the game, real world footage often contains a lot of graphics that cannot be removed 
+unless raw footage can be retrieved (nearly impossible seemingly). Due to this, manual 
+collection of frames and clips is much more convenient, and can be cropped to remove graphics 
+interfering with racing footage useful for testing model
+'''
+
+BASE_DIR = 'P:\\GitHub\\F1-Car-Detection\\'
+TEST_VID_DIR = os.path.join(BASE_DIR, 'raw\\', 'synthetic\\', 'test\\', 'broadcast\\')
+
+DATASET_DIR = os.path.join(BASE_DIR, 'dataset\\')
+TEST_IMG_DIR = os.path.join(DATASET_DIR, 'test\\', 'synthetic\\', 'image\\')
+
+def extract_frames(video_file, output_folder, num_frames=50):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -54,9 +61,9 @@ def extract_frames(video_file, output_folder, num_frames=30):
     print(f"Done extracting {len(frame_indices)} frames to: {output_folder}")
 
 def main():
-    for video_file in os.listdir(TEST_VIDEOS):
-        video_path = os.path.join(TEST_VIDEOS, video_file)
-        extract_frames(video_path, TEST_IMGS_DIR)
+    for video_file in os.listdir(TEST_VID_DIR):
+        video_path = os.path.join(TEST_VID_DIR, video_file)
+        extract_frames(video_path, TEST_IMG_DIR)
 
 if __name__ == "__main__":
     main()
