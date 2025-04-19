@@ -13,7 +13,7 @@ interfering with racing footage useful for testing model
 '''
 
 BASE_DIR = 'P:\\GitHub\\F1-Car-Detection\\'
-TEST_VID_DIR = os.path.join(BASE_DIR, 'raw\\', 'synthetic\\', 'test\\', 'broadcast\\')
+TEST_VID_DIR = os.path.join(BASE_DIR, 'raw\\', 'synthetic\\', 'test\\')
 
 DATASET_DIR = os.path.join(BASE_DIR, 'dataset\\')
 TEST_IMG_DIR = os.path.join(DATASET_DIR, 'test\\', 'synthetic\\', 'image\\')

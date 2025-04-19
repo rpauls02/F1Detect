@@ -13,10 +13,10 @@ interfering with racing footage useful for testing model
 '''
 
 BASE_DIR = 'P:\\GitHub\\F1-Car-Detection\\'
-TEST_VID_DIR = os.path.join(BASE_DIR, 'raw\\', 'broadcast\\', 'test\\')
+TEST_VID_DIR = os.path.join(BASE_DIR, 'raw\\', 'synthetic\\', 'test\\')
 
 DATASET_DIR = os.path.join(BASE_DIR, 'dataset\\')
-TEST_CLIPS_DIR = os.path.join(DATASET_DIR, 'test\\', 'video\\')
+TEST_CLIPS_DIR = os.path.join(DATASET_DIR, 'test\\', 'synthetic\\', 'video\\')
 
 def extract_clips(video_file, output_folder, duration=5, num_clips=5):
     """Extract random video clips of given duration from a video file."""
