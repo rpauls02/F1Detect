@@ -1,0 +1,61 @@
+To test extract_frames.py
+    1) Adjust BASE_DIR to local absolute project path
+
+    2) Delete "dataset/test/synthetic/image" directory to remove existing synthetic test image data
+    
+    3) In Command Prompt, navigate to project root and run 'python src/extract_frames.py'
+
+To test extract_clips.py
+    1) Adjust BASE_DIR to local absolute project path
+
+    2) Delete "dataset/test/synthetic/video" directory to remove existing synthetic test video data
+    
+    3) In Command Prompt, navigate to project root and run 'python src/extract_clips.py'
+
+To get baseline experiment results, do the following in yolo11m_train.py
+    1) Adjust BASE_DIR to local absolute project path
+
+    2) In Command Prompt, navigate to project root and run 'python src/yolo11m_train.py'
+
+    3) View results in "runs/baseline" directory
+
+To get results for tuning experiments, do the following in yolo11m_tune.py
+    1) Adjust BASE_DIR to local absolute project path
+
+    2) Enter corresponding values into 'project' and 'iteration' for desired experiment
+        e.g. for ten-iteration experiment:
+                update 'project' with "runs/tuning/iter10"
+                update 'iterations' with 10
+
+        e.g. for fifty-iteration experiment:
+                update 'project' with "runs/tuning/iter50"
+                update 'iterations' with 50
+
+    3) In Command Prompt, navigate to project root and run 'python src/yolo11m_tune.py'
+
+    4) View results in "runs/tuning/<experiment name>" directory set in 'project' parameter
+        e.g. for ten-iteration experiment, view results in "runs/tuning/iter10"
+
+To get training results for tuning experiments, do the following in yolo11m_train.py after getting baseline result
+    1) Adjust BASE_DIR to local absolute project path
+
+    2) Replace the pretained model "yolo11m.pt" on line 30 with 'model_path'
+
+    3) Uncomment 'cfg=BEST_HYP' on line 42 inside model.train() call
+
+    4) Uncomment corresponding model_path and BEST_HYP assignment for desired tuning experiment
+        e.g. for ten-iteration experiment, uncomment 'model_path' and 'BEST_HYP' for paths containing 'iter10\\'
+
+    5) Update project path in 'project' to the experiment training is being run on
+        e.g. for ten-iteration experiment, update 'project' with "runs/training/iter10"
+
+    6) In Command Prompt, navigate to project root and run 'python src/yolo11m_train.py'
+
+    7) View results in "runs/training/<experiment name>" directory set in 'project' parameter
+        e.g. for ten-iteration experiment, view results in "runs/training/iter10"
+
+To get test results, do the following in test_functions.py
+    1) In Command Prompt, navigate to project root and run 'python src/test_functions.py'
+
+    2) View results in "results/<data type>" 
+        e.g. for synthetic data, navigate to "results/synthetic"
