@@ -10,7 +10,10 @@ Built an end-to-end detection pipeline using **YOLOv11** (Ultralytics), covering
 
 | Metric | Value |
 |---|---|
-| Inference speed | ~60 FPS (real-time) |
+| mAP@50 (validation) | 0.945 |
+| mAP@50-95 (validation) | 0.906 |
+| Precision / recall (validation) | 0.886 / 0.926 |
+| Inference speed | ~60 FPS (real-time, GPU) |
 | Benchmark set | 1,100+ frames |
 
 ## Approach
