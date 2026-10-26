@@ -1,18 +1,17 @@
 # F1 Car Detection
 
-Real-time object detection system for identifying Formula 1 race cars in video footage, trained on a custom dataset combining video-game and real-world clips.
+Real-time object detection system for identifying Formula 1 race cars in video footage, trained on a Roboflow dataset combining video-game and real-world clips.
 
 ## Overview
 
-Built an end-to-end detection pipeline using **YOLOv11** (Ultralytics), covering dataset construction, CUDA-accelerated training, and evolutionary hyperparameter search. The final model reaches real-time inference speeds while maintaining high detection confidence across a large held-out frame set.
+Built an end-to-end detection pipeline using **YOLOv11** (Ultralytics), covering dataset construction, CUDA-accelerated training, and evolutionary hyperparameter search. The final model runs at real-time speeds on GPU, benchmarked across a held-out set of 1,100+ frames.
 
 ## Results
 
 | Metric | Value |
 |---|---|
 | Inference speed | ~60 FPS (real-time) |
-| Mean detection confidence | 0.75 |
-| Evaluation set | 1,100+ frames |
+| Benchmark set | 1,100+ frames |
 
 ## Approach
 
